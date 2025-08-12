@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils import timezone
 
-# Create your models here.
 
 class RequestLog(models.Model):
     """
@@ -41,3 +40,24 @@ class RequestLog(models.Model):
     def formatted_timestamp(self):
         """Return a nicely formatted timestamp"""
         return self.timestamp.strftime("%Y-%m-%d %H:%M:%S")
+
+
+class BlockedIP(models.Model):
+    """
+    Model to store blocked IP addresses.
+    """
+    ip_address = models.GenericIPAddressField(
+        unique=True,
+        verbose_name="IP Address",
+        help_text="The IP address to block"
+    )
+    
+    class Meta:
+        verbose_name = "Blocked IP"
+        verbose_name_plural = "Blocked IPs"
+        indexes = [
+            models.Index(fields=['ip_address']),
+        ]
+    
+    def __str__(self):
+        return self.ip_address
