@@ -90,6 +90,10 @@ LOGGING = {
     },
 }
 
+# Rate limiting configuration
+RATELIMIT_ENABLE = True
+RATELIMIT_USE_CACHE = 'default'
+
 ROOT_URLCONF = 'alx_backend_security.urls'
 
 TEMPLATES = [
