@@ -23,6 +23,22 @@ class RequestLog(models.Model):
         help_text="The URL path that was requested"
     )
     
+    country = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        verbose_name="Country",
+        help_text="Country from geolocation"
+    )
+    
+    city = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        verbose_name="City",
+        help_text="City from geolocation"
+    )
+    
     class Meta:
         verbose_name = "Request Log"
         verbose_name_plural = "Request Logs"
@@ -34,7 +50,12 @@ class RequestLog(models.Model):
         ]
     
     def __str__(self):
-        return f"{self.ip_address} - {self.path} at {self.timestamp}"
+        location = ""
+        if self.city and self.country:
+            location = f" ({self.city}, {self.country})"
+        elif self.country:
+            location = f" ({self.country})"
+        return f"{self.ip_address} - {self.path}{location} at {self.timestamp}"
     
     @property
     def formatted_timestamp(self):
